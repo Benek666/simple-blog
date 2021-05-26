@@ -17,11 +17,11 @@ class ItemSeeder extends Seeder
     {
         for($i = 1; $i <= 10; $i++) {
             
-            DB::table('comments_to_items')->insert([
-            'items_id' => $i,
-            'users_id' => random(1,10),
+            DB::table('items')->insert([
+            'users_id' => rand(1,10),
             'subject' => Str::random(100),
-            'description' => Str::random(400),            
+            'description' => Str::random(400),
+            'created_at' => \Carbon\Carbon::now(),
             ]);
         }
     }

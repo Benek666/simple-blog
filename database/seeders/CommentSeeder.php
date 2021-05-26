@@ -19,10 +19,13 @@ class CommentSeeder extends Seeder
             
             for($j = 1; $j <=4; $j++) {
             
-                DB::table('comments_to_user')->insert([
-                'users_id' => random(1, 10),
+                DB::table('comments')->insert([
+                'users_id' => rand(1, 10),
                 'subject' => Str::random(100),
-                'description' => Str::random(400),            
+                'description' => Str::random(400),
+                'commentable_id' => 1,
+                'commentable_type' => rand(0,1)? 'Item' : 'User',
+                'created_at' => \Carbon\Carbon::now(),
                 ]);
             }
         }
