@@ -16,7 +16,7 @@
                     
                         {{$item->description}}<br/><br/>
                         
-                        <b>({{$item->user->name}})</b><br/><br/>
+                        <b><a href="/profile/{{$item->user->id}}">{{$item->user->name}}</a></b><br/><br/>
                         
                         <hr/>
                         
@@ -26,7 +26,7 @@
                             
                             {{$comment->description}}<br/><br/>
                             
-                            <b>{{$comment->user->name}}</b>
+                            <b><a href="/profile/{{$comment->user->id}}">{{$comment->user->name}}</a></b><br/>
                         @endforeach
                         
                         <hr/>

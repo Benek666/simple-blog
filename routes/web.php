@@ -17,6 +17,8 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/profile/{id}', [HomeController::class, 'showProfile'])->whereNumber('id');
+
 Route::post('/dodaj_wpis', [HomeController::class, 'addItem']);
 Route::post('/edytuj_wpis/{id}', [HomeController::class, 'updateItem']);
 Route::get('/usun_wpis/{id}/{user}', [HomeController::class, 'deleteItem']);
