@@ -19,8 +19,8 @@ class HomeController extends Controller
         try {
             
             $user = User::findOrFail($id); 
-        }
-        catch(ModelNotFoundException $e) {
+            
+        } catch(ModelNotFoundException $e) {
         
             abort(404, 'Profil o podanym identyfikatorze nie został znaleziony!');
         }
@@ -30,6 +30,15 @@ class HomeController extends Controller
     
     public function showItem($id) {
         
+        try {
+            
+            $item = Item::findOrFail($id);
+            
+        } catch (ModelNotFoundException $e) {
+
+            abort(404, 'Brak wpisu o podanym identyfikatorze!');
+        }
         
+        return view('item')->with('item', $item)->with('comments', $item->comments()->paginate(5));
     }
 }

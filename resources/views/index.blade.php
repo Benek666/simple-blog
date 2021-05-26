@@ -12,7 +12,7 @@
                    
                     @foreach($items as $item)
                     
-                        {{$item->subject}} {{$item->created_at}} <br/><br/>
+                    <u><a href="/item/{{$item->id}}" title="{{$item->subject}}">{{$item->subject}}</a></u> {{$item->created_at}} <br/><br/>
                     
                         {{$item->description}}<br/><br/>
                         
@@ -26,7 +26,7 @@
                             
                             {{$comment->description}}<br/><br/>
                             
-                            <b><a href="/profile/{{$comment->user->id}}">{{$comment->user->name}}</a></b><br/>
+                            <b><a href="/profile/{{$comment->user->id}}" title="Profil">{{$comment->user->name}}</a></b><br/>
                         @endforeach
                         
                         <hr/>
