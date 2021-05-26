@@ -21,10 +21,10 @@ class CommentSeeder extends Seeder
             
                 DB::table('comments')->insert([
                 'users_id' => rand(1, 10),
-                'subject' => Str::random(100),
-                'description' => Str::random(400),
-                'commentable_id' => 1,
-                'commentable_type' => rand(0,1)? 'Item' : 'User',
+                'subject' => 'Przykładowy temat przykladowego komentarza', # Str::random(100),
+                'description' => 'Przykładowy komentarz, Przykładowy komentarz, Przykładowy komentarz, Przykładowy komentarz', # Str::random(400),
+                'commentable_id' => rand(1,5),
+                'commentable_type' => rand(0,1)? 'App\Models\Item' : 'App\Models\User',
                 'created_at' => \Carbon\Carbon::now(),
                 ]);
             }

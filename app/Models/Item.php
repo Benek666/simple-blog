@@ -9,6 +9,8 @@ class Item extends Model
 {
     use HasFactory;
     
+    protected $table = 'Items';
+    
     public function user() {
         
         return $this->hasOne('\App\Models\User', 'id', 'users_id');

@@ -20,7 +20,7 @@ class CreateCommentsTable extends Migration
              
             
             $table->bigInteger('commentable_id');
-            $table->string('commentable_type', 5);
+            $table->string('commentable_type', 16);
             
             $table->string('subject', 100)->nullable();
             $table->text('description');

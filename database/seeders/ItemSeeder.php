@@ -15,12 +15,12 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 10; $i++) {
+        for($i = 1; $i <= 30; $i++) {
             
             DB::table('items')->insert([
             'users_id' => rand(1,10),
-            'subject' => Str::random(100),
-            'description' => Str::random(400),
+            'subject' => 'Przykładowy temat wpisu', # Str::random(100),
+            'description' => 'Przykładowy opis przykładowego wpisu, Przykładowy opis przykładowego wpisu, Przykładowy opis przykładowego wpisu', # Str::random(400),
             'created_at' => \Carbon\Carbon::now(),
             ]);
         }
