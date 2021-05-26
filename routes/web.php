@@ -21,9 +21,11 @@ Route::get('/profile/{id}', [HomeController::class, 'showProfile'])->whereNumber
 
 Route::get('/item/{id}', [HomeController::class, 'showItem'])->whereNumber('id');
 
-Route::post('/dodaj_wpis', [HomeController::class, 'addItem']);
-Route::post('/edytuj_wpis/{id}', [HomeController::class, 'updateItem']);
-Route::get('/usun_wpis/{id}/{user}', [HomeController::class, 'deleteItem']);
+Route::post('/add_item', [HomeController::class, 'addItem']);
+Route::post('/edit_item/{id}', [HomeController::class, 'updateItem'])->whereNumber('id');
+Route::get('/delete_item/{id}/{user}', [HomeController::class, 'deleteItem'])->whereNumber('id')->whereNumber('user');
+
+Route::post('/add_comment', [HomeController::class, 'addComment']);
 
 Route::post('/dodaj_komentarz', [HomeController::class, 'addItem']);
 Route::post('/edytuj_komentarz/{id}', [HomeController::class, 'updateItem']);

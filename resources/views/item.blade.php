@@ -38,7 +38,37 @@
                     @endif
                 </div>
                 
-               
+                @if ($errors->any())
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endif
+                
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <form method="POST" action="/add_comment">
+                        
+                        <label for="subject">Temat</label>
+                        <input id="subject" name="subject" type="text" value="{{old('subject')}}" /><br/><br/>
+                        
+                        
+                        <label for="description">Opis</label>
+                        <textarea name="description" id="description">{{old('description')}}</textarea><br/><br/>
+                        
+                        
+                        <input type="submit" value="Dodaj komentarz" />
+                        
+                        <input type="hidden" value="{{$item->id}}" name="item_id" />
+                        
+                        <input type="hidden" value="" name="comments_id" />
+                        @csrf
+                    </form>
+                </div>
             </div>
             
            {{$comments->links()}}
