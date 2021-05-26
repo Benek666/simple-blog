@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class CommentToItemSeeder extends Seeder
+class CommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,13 +19,12 @@ class CommentToItemSeeder extends Seeder
             
             for($j = 1; $j <=4; $j++) {
             
-                DB::table('comments_to_items')->insert([
-                'items' => $i,
+                DB::table('comments_to_user')->insert([
+                'users_id' => random(1, 10),
                 'subject' => Str::random(100),
                 'description' => Str::random(400),            
                 ]);
             }
         }
-        
     }
 }

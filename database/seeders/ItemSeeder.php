@@ -18,7 +18,8 @@ class ItemSeeder extends Seeder
         for($i = 1; $i <= 10; $i++) {
             
             DB::table('comments_to_items')->insert([
-            'items' => $i,
+            'items_id' => $i,
+            'users_id' => random(1,10),
             'subject' => Str::random(100),
             'description' => Str::random(400),            
             ]);

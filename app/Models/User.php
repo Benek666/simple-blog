@@ -46,13 +46,8 @@ class User extends Authenticatable
         return $this->hasMany('\App\Models\Item', 'users_id', 'id');
     }
     
-    public function comments() {
+    public function comments() {        
         
-        return $this->hasMany('\App\Models\CommentToUser', 'users_id', 'id');
-    }
-    
-    public function commentsToItems() {
-        
-        return $this->hasMany('\App\Models\CommentToItem', 'users_id', 'id');
+        return $this->morphMany('\App\Models\Comment', 'commentable');
     }
 }

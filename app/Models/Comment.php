@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CommentToUser extends Model
+class Comment extends Model
 {
     use HasFactory;
     
-    public function user() {
+    public function commentable() {
         
-        return $this->hasOne('\App\Models\User', 'id', 'users_id');
+        return $this->morphTo();
     }
 }

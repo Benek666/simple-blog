@@ -14,8 +14,8 @@ class Item extends Model
         return $this->hasOne('\App\Models\User', 'id', 'users_id');
     }
     
-    public function comments() {
+    public function comments() {        
         
-        return $this->hasMany('\App\Models\CommentToItem', 'items_id', 'id');
+        return $this->morphMany('\App\Models\Comment', 'commentable');
     }
 }
