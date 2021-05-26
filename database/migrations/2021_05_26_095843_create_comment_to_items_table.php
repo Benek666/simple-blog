@@ -16,6 +16,7 @@ class CreateCommentToItemsTable extends Migration
         Schema::create('comment_to_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('items_id');
+            $table->foreignId('users_id');
             $table->string('subject', 100)->nullable();
             $table->text('description');
             $table->softDeletes('deleted_at');
