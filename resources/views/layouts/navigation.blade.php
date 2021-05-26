@@ -18,6 +18,8 @@
                 </div>
             </div>
 
+            
+            @if(Auth::user())
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
@@ -47,7 +49,21 @@
                     </x-slot>
                 </x-dropdown>
             </div>
-
+            @else
+            <div class="hidden sm:flex sm:items-center sm:ml-6">           
+                <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <div><a href="/login">Zaloguj się</a></div>
+                </button>
+                &nbsp;|&nbsp;
+                
+                <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <div> <a href="/register">Zarejestruj się</a></div>
+                </button>
+            
+            </div>
+            @endif
+            
+            
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -68,6 +84,7 @@
             </x-responsive-nav-link>
         </div>
 
+        @if(Auth::user())
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
@@ -88,5 +105,7 @@
                 </form>
             </div>
         </div>
+        @endif
+        
     </div>
 </nav>

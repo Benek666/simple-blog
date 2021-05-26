@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
+
+Route::post('/dodaj_wpis', [HomeController::class, 'addItem']);
+Route::post('/edytuj_wpis/{id}', [HomeController::class, 'updateItem']);
+Route::get('/usun_wpis/{id}/{user}', [HomeController::class, 'deleteItem']);
+
+Route::post('/dodaj_komentarz', [HomeController::class, 'addItem']);
+Route::post('/edytuj_komentarz/{id}', [HomeController::class, 'updateItem']);
+Route::get('/usun_komentarz/{id}/{user}', [HomeController::class, 'deleteItem']);
+
+Route::post('/dodaj_komentarz_profil', [HomeController::class, 'addItem']);
+Route::post('/edytuj_komentarz_profil/{id}', [HomeController::class, 'updateItem']);
+Route::get('/usun_komentarz_profil/{id}/{user}', [HomeController::class, 'deleteItem']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
