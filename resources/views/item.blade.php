@@ -30,9 +30,11 @@
                             @if(Auth::user()->id == $comment->users_id || Auth::user()->is_admin)
                             &nbsp|&nbsp;<a href="/remove_comment/{{$comment->id}}" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?')">Usuń</a>&nbsp;|&nbsp;
                             
-                            <a href="/item/{{$item->id}}/comment/{{$comment->id}}">Zmień</a><br/><br/>
+                            <a href="/item/{{$item->id}}/comment/{{$comment->id}}">Zmień</a>
                             @endif
                         @endauth
+                        <br/><br/>
+                        
                         
                                 {{$comment->description}}<br/><br/>
 
@@ -51,17 +53,19 @@
                @endcomponent
                
                 <div class="p-6 bg-white border-b border-gray-200">
+                    <b>Dodaj komentarz:</b><br/><br/>
+                    
                     <form method="POST" action="@if($userComment) /update_comment @else /add_comment @endif">
                         
                         <label for="subject">Temat</label>
-                        <input id="subject" name="subject" type="text" value="@if($userComment) {{$userComment->subject}} @else{{old('subject')}}@endif" /><br/><br/>
+                        <input id="subject" name="subject" type="text" value="@if($userComment){{$userComment->subject}}@else{{old('subject')}}@endif" /><br/><br/>
                         
                         
                         <label for="description">Opis</label>
-                        <textarea name="description" id="description">@if($userComment) {{$userComment->description}} @else{{old('description')}}@endif</textarea><br/><br/>
+                        <textarea name="description" id="description">@if($userComment){{$userComment->description}}@else{{old('description')}}@endif</textarea><br/><br/>
                         
                         
-                        <input type="submit" value="Dodaj komentarz" />
+                        <input type="submit" value="Zapisz" />
                         
                         <input type="hidden" value="{{$item->id}}" name="item_id" />
                         

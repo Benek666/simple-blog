@@ -15,7 +15,7 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::get('/profile/{id}/comment/{comment_id}', [HomeController::class, 'showProfile'])->whereNumber('id')->whereNumber('comment_id');
 Route::get('/profile/{id}', [HomeController::class, 'showProfile'])->whereNumber('id');
@@ -28,8 +28,9 @@ Route::post('/add_comment', [HomeController::class, 'addComment']);
 Route::get('/remove_comment/{id}', [HomeController::class, 'removeComment'])->whereNumber('id');
 Route::post('/update_comment', [HomeController::class, 'updateComment']);
 
+Route::get('/add_update_item/{id?}', [HomeController::class, 'getFormItem']);
 Route::post('/add_item', [HomeController::class, 'addItem']);
-Route::post('/update_item/{id}', [HomeController::class, 'updateItem'])->whereNumber('id');
+Route::post('/update_item', [HomeController::class, 'updateItem'])->whereNumber('id');
 Route::get('/remove_item/{id}', [HomeController::class, 'removeItem'])->whereNumber('id');
 
 
