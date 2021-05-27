@@ -17,23 +17,21 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/profile/{id}/comment/{comment_id}', [HomeController::class, 'showProfile'])->whereNumber('id')->whereNumber('comment_id');
 Route::get('/profile/{id}', [HomeController::class, 'showProfile'])->whereNumber('id');
 
+Route::get('/item/{id}/comment/{comment_id}', [HomeController::class, 'showItem'])->whereNumber('id')->whereNumber('comment_id');
 Route::get('/item/{id}', [HomeController::class, 'showItem'])->whereNumber('id');
 
-Route::post('/add_item', [HomeController::class, 'addItem']);
-Route::post('/edit_item/{id}', [HomeController::class, 'updateItem'])->whereNumber('id');
-Route::get('/delete_item/{id}/{user}', [HomeController::class, 'deleteItem'])->whereNumber('id')->whereNumber('user');
 
 Route::post('/add_comment', [HomeController::class, 'addComment']);
+Route::get('/remove_comment/{id}', [HomeController::class, 'removeComment'])->whereNumber('id');
+Route::post('/update_comment', [HomeController::class, 'updateComment']);
 
-Route::post('/dodaj_komentarz', [HomeController::class, 'addItem']);
-Route::post('/edytuj_komentarz/{id}', [HomeController::class, 'updateItem']);
-Route::get('/usun_komentarz/{id}/{user}', [HomeController::class, 'deleteItem']);
+Route::post('/add_item', [HomeController::class, 'addItem']);
+Route::post('/update_item/{id}', [HomeController::class, 'updateItem'])->whereNumber('id');
+Route::get('/remove_item/{id}', [HomeController::class, 'removeItem'])->whereNumber('id');
 
-Route::post('/dodaj_komentarz_profil', [HomeController::class, 'addItem']);
-Route::post('/edytuj_komentarz_profil/{id}', [HomeController::class, 'updateItem']);
-Route::get('/usun_komentarz_profil/{id}/{user}', [HomeController::class, 'deleteItem']);
 
 
 Route::get('/dashboard', function () {

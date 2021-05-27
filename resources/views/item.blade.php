@@ -24,8 +24,16 @@
                     
                         @foreach($comments as $comment)
 
-                                {{$comment->subject}} {{$comment->created_at}}<br/><br/>
-
+                        {{$comment->id}} - {{$comment->subject}} {{$comment->created_at}}
+                        
+                        @auth   
+                            @if(Auth::user()->id == $comment->users_id || Auth::user()->is_admin)
+                            &nbsp|&nbsp;<a href="/remove_comment/{{$comment->id}}" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?')">Usuń</a>&nbsp;|&nbsp;
+                            
+                            <a href="/item/{{$item->id}}/comment/{{$comment->id}}">Zmień</a><br/><br/>
+                            @endif
+                        @endauth
+                        
                                 {{$comment->description}}<br/><br/>
 
                                 <b><a href="/profile/{{$comment->user->id}}">{{$comment->user->name}}</a></b><br/>
@@ -38,34 +46,26 @@
                     @endif
                 </div>
                 
-                @if ($errors->any())
+               @component('components.message')
+
+               @endcomponent
+               
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-                @endif
-                
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="/add_comment">
+                    <form method="POST" action="@if($userComment) /update_comment @else /add_comment @endif">
                         
                         <label for="subject">Temat</label>
-                        <input id="subject" name="subject" type="text" value="{{old('subject')}}" /><br/><br/>
+                        <input id="subject" name="subject" type="text" value="@if($userComment) {{$userComment->subject}} @else{{old('subject')}}@endif" /><br/><br/>
                         
                         
                         <label for="description">Opis</label>
-                        <textarea name="description" id="description">{{old('description')}}</textarea><br/><br/>
+                        <textarea name="description" id="description">@if($userComment) {{$userComment->description}} @else{{old('description')}}@endif</textarea><br/><br/>
                         
                         
                         <input type="submit" value="Dodaj komentarz" />
                         
                         <input type="hidden" value="{{$item->id}}" name="item_id" />
                         
-                        <input type="hidden" value="" name="comments_id" />
+                        <input type="hidden" value="@if($userComment){{$userComment->id}}@endif" name="comments_id" />
                         @csrf
                     </form>
                 </div>

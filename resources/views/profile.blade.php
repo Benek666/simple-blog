@@ -15,8 +15,16 @@
                         <b>Komentarze do profilu {{$user->name}}:</b><br/><br/>
                     
                         @foreach($comments as $comment)
+                        
+                                {{$comment->subject}} {{$comment->created_at}}
+                                
+                                @auth   
+                                    @if(Auth::user()->id == $comment->users_id || Auth::user()->is_admin)
+                                    &nbsp|&nbsp;<a href="/remove_comment/{{$comment->id}}" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?')">Usuń</a>&nbsp;|&nbsp;
 
-                                {{$comment->subject}} {{$comment->created_at}}<br/><br/>
+                                    <a href="/profile/{{$user->id}}/comment/{{$comment->id}}">Zmień</a><br/><br/>
+                                    @endif
+                                @endauth
 
                                 {{$comment->description}}<br/><br/>
 
@@ -28,6 +36,30 @@
                     @else
                         Użytkownik <b>{{$user->name}}</b> nie posiada komentarzy do swojego profilu.
                     @endif
+                </div>
+                
+               @component('components.message')
+
+               @endcomponent
+               
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <form method="POST" action="@if($userComment) /update_comment @else /add_comment @endif">
+                        
+                        <label for="subject">Temat</label>
+                        <input id="subject" name="subject" type="text" value="@if($userComment) {{$userComment->subject}} @else{{old('subject')}}@endif" /><br/><br/>
+                        
+                        
+                        <label for="description">Opis</label>
+                        <textarea name="description" id="description">@if($userComment) {{$userComment->description}} @else{{old('description')}}@endif</textarea><br/><br/>
+                        
+                        
+                        <input type="submit" value="Dodaj komentarz" />
+                        
+                        <input type="hidden" value="{{$user->id}}" name="user_id" />
+                        
+                        <input type="hidden" value="@if($userComment){{$userComment->id}}@endif" name="comments_id" />
+                        @csrf
+                    </form>
                 </div>
             </div>
             
