@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,6 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::get('/profile/{id}/comment/{comment_id}', [HomeController::class, 'showProfile'])->whereNumber('id')->whereNumber('comment_id');
@@ -32,6 +32,32 @@ Route::get('/add_update_item/{id?}', [HomeController::class, 'getFormItem']);
 Route::post('/add_item', [HomeController::class, 'addItem']);
 Route::post('/update_item', [HomeController::class, 'updateItem'])->whereNumber('id');
 Route::get('/remove_item/{id}', [HomeController::class, 'removeItem'])->whereNumber('id');
+
+
+Route::prefix('/admin')->group(function() {
+    
+    Route::get('/', [AdminController::class, 'index'])->name('admin');
+    
+    Route::get('/items', [AdminController::class, 'getItems'])->name('items');
+    
+    Route::get('/item/{id}', [AdminController::class, 'getItem'])->whereNumber('id');
+    Route::post('/update_item', [AdminController::class, 'updateItem']);
+    
+    Route::get('/remove_item/{id}', [AdminController::class, 'removeItem'])->whereNumber('id');
+    Route::get('/restore_item/{id}',[AdminController::class, 'restoreItem'])->whereNumber('id');
+    
+    
+    Route::get('/comments/{item_id}', [AdminController::class, 'getComments'])->whereNumber('item_id');
+    Route::get('/comment/{id}', [AdminController::class, 'getComment'])->whereNumber('id');
+    Route::post('/comment_update', [AdminController::class, 'updateComment']);
+    
+    Route::get('/remove_comment/{id}', [AdminController::class, 'removeComment'])->whereNumber('id');
+    Route::get('/restore_comment/{id}',[AdminController::class, 'restoreComment'])->whereNumber('id');
+    
+    
+    Route::get('/users', [AdminController::class, 'getUsers'])->name('users');
+        
+});
 
 
 
