@@ -41,18 +41,18 @@ Route::prefix('/admin')->group(function() {
     Route::get('/items', [AdminController::class, 'getItems'])->name('items');
     
     Route::get('/item/{id}', [AdminController::class, 'getItem'])->whereNumber('id')->name('item');
-    Route::post('/update_item', [AdminController::class, 'updateItem']);
+    Route::post('/update_item/{isAdmin?}', [AdminController::class, 'updateItem'])->name('update_item');
     
     Route::get('/remove_item/{id}', [AdminController::class, 'removeItem'])->whereNumber('id')->name('remove_item');
     Route::get('/restore_item/{id}',[AdminController::class, 'restoreItem'])->whereNumber('id')->name('restore_item');
     
     
-    Route::get('/comments/{item_id}', [AdminController::class, 'getComments'])->whereNumber('item_id')->name('comments');
+    Route::get('/comments/{commentable}/{isItem?}', [AdminController::class, 'getComments'])->whereNumber('commentable')->name('comments');
     Route::get('/comment/{id}', [AdminController::class, 'getComment'])->whereNumber('id')->name('comment');
     Route::post('/comment_update', [AdminController::class, 'updateComment']);
     
-    Route::get('/remove_comment/{id}', [AdminController::class, 'removeComment'])->whereNumber('id');
-    Route::get('/restore_comment/{id}',[AdminController::class, 'restoreComment'])->whereNumber('id');
+    Route::get('/remove_comment/{id}', [AdminController::class, 'removeComment'])->whereNumber('id')->name('remove_comment');
+    Route::get('/restore_comment/{id}',[AdminController::class, 'restoreComment'])->whereNumber('id')->name('restore_comment');
     
     
     Route::get('/users', [AdminController::class, 'getUsers'])->name('users');

@@ -41,7 +41,7 @@ class UserRepository {
 
             $user->delete();
 
-            return redirect()->route('index')->with(['message' => 'Wpis został usunięty']);
+            return redirect()->back()->with(['message' => 'Wpis został usunięty']);
         }
         
         return redirect()->back()->withErrors(['Wpis już zostal usunięty']);

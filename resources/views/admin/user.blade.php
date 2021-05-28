@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-weight-bold text-left text-text-gray-800" style="text-transform: uppercase;">
-            <a href="/admin/items">Wpisy</a>&nbsp;|&nbsp;<a href="/admin/users">Użytkownicy</a>
-        </h2>
-    </x-slot>
 
     <div class="py-12">        
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -19,18 +14,30 @@
                     
                         <form method="POST" action="{{route('update_user')}}">
 
-                        <label for="email">Email</label>
-                        <input id="email" name="email" type="text" value="@if($user) {{$user->email}} @else{{old('email')}}@endif" /><br/><br/>
+                            <div class="flex">
+                                <div class="w-2/5">
+                                    <label for="email">Email</label><br/>
+                                    <input id="email" name="email" type="text" value="@if($user){{$user->email}}@else{{old('email')}}@endif" /><br/><br/>
+                                </div>
 
-                        <label for="name">Nazwa</label>
-                        <input id="name" name="name" type="text" value="@if($user) {{$user->name}} @else{{old('name')}}@endif" /><br/><br/>
+                                <div class="w-2/5">
+                                    <label for="name">Nazwa</label><br/>
+                                    <input id="name" name="name" type="text"  value="@if($user){{$user->name}}@else{{old('name')}}@endif" /><br/><br/>
+                                </div>
+                            
+                                <div class="w-1/5">
+                                    <label for="is_admin">Admin</label><br/>
+                                    <input id="is_admin" name="is_admin" type="checkbox" @if($user->is_admin) checked="checked" @endif/>
+                                </div>
 
-                        <label for="is_admin">Admin</label>
-                        <input id="is_admin" name="is_admin" type="checkbox" @if($user->is_admin) checked="checked" @endif/>
-                        
-                        <input type="submit" value="Zapisz" />
-
-                        <input type="hidden" value="{{$user->id}}" name="id" />
+                              
+                            </div>
+                            
+                              <div class="text-right">
+                                    <input type="submit" value="Zapisz" class="p-3" />
+                                </div>
+                            
+                            <input type="hidden" value="{{$user->id}}" name="id" />
 
                         @csrf
                     </form>

@@ -20,6 +20,6 @@ class IsAdmin
         if(Auth::user() && Auth::user()->is_admin)
             return $next($request);
         
-        return redirect()->route('index')->withErrors(['blad' => 'Brak uprawnien']);
+        return redirect()->route('login');
     }
 }

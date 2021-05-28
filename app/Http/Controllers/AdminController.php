@@ -66,9 +66,9 @@ class AdminController extends Controller
         return redirect()->route('admin')->withErrors(['blad' => 'Brak wpisu o podanym id!']);
     }
     
-    public function updateItem(Request $request) {
+    public function updateItem(Request $request, $isAdmin = 0) {
 
-       return $this->itemRepository->update($request);
+       return $this->itemRepository->update($request, $isAdmin);
     }
     
     public function removeItem($id) {
@@ -80,16 +80,39 @@ class AdminController extends Controller
         
         return $this->itemRepository->restore($id);
     }
-    
-    public function getComments($items_id) {
+
+    public function getComments(Request $request, $commentable, $isItem = 1) {
+         
+        if($obj = (($isItem)? 'App\Models\Item':'App\Models\User')::withTrashed()->find($commentable)) {
         
-        if($item = Item::withTrashed()->find($items_id))
-                
-                
-            return view('admin.comments')->with('item', $item)
-                                        ->with('comments', $item->comments()->orderBy('created_at', 'DESC')->paginate(5));
+            $paginate = 20;
+        
+            $comments = $obj->comments()->paginate($paginate); # ->orderBy('created_at', 'DESC');
+
+            /*
+            if($request->has('rows')) {
+
+                switch($request['rows']) {
+
+                    case 1:
+                      $comments = $obj->comments()::withTrashed()->paginate($paginate); # ->orderBy('created_at', 'DESC')
+                    break;
+
+                    case 2:
+                      $comments = $obj->comments()::onlyTrashed()->paginate($paginate); # ->orderBy('created_at', 'DESC')
+                    break;
+
+                    default:
+                      $comments = $obj->comments()::paginate($paginate); # orderBy('created_at', 'DESC')
+                }            
+            }
+            */  
+            return view('admin.comments')->with('obj', $obj)
+                                         ->with('comments', $comments)
+                                         ->with('isItem', $isItem);
+        }
         else
-            return redirect()->back()->withErrors(['blad' => 'Brak wpisu o id '.$items_id]);
+            return redirect()->back()->withErrors(['blad' => 'Brak wpisu o id '.$commentable]);
         
     }
     

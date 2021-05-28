@@ -15,7 +15,7 @@ class ItemRepository {
     public function add(Request $request) {
     
          $validator = Validator::make($request->all(), [
-            'subject' => 'max:100',
+            'subject' => 'max:100|required',
             'description' => 'required'
         ]);
         
@@ -32,7 +32,9 @@ class ItemRepository {
         return redirect()->route('index')->with(['message' => 'Post został dodany']);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request, $admin = 0) {
+        
+        $route = ($admin)? 'items':'index';
         
         $validator = Validator::make($request->all(), [
             'subject' => 'max:100|required',
@@ -60,7 +62,7 @@ class ItemRepository {
         
         if($validator->fails()) {
             
-            return redirect()->route('index')->withErrors($validator)->withInput();
+            return redirect()->route($route)->withErrors($validator)->withInput();
         }
         
         $item = Item::find($request->input('item_id'));
@@ -68,7 +70,7 @@ class ItemRepository {
         $item->description = $request->input('description');
         $item->save();
         
-        return redirect()->route('index')->with(['message' => 'Gratulacje wpis został zaktualizowany']);
+        return redirect()->route($route)->with(['message' => 'Gratulacje wpis został zaktualizowany']);
     }
     
     public function remove($id) {
@@ -79,7 +81,7 @@ class ItemRepository {
 
                 $item->delete();
 
-                return redirect()->route('index')->with(['message' => 'Wpis został usunięty']);
+                return redirect()->back()->with(['message' => 'Wpis został usunięty']);
             }
 
             return redirect()->back()->withErrors(['Nie masz uprawnień do usunięcia tego wpisu']);

@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-weight-bold text-left text-text-gray-800" style="text-transform: uppercase;">
-            <a href="/admin/items">Wpisy</a>&nbsp;|&nbsp;<a href="/admin/users">Użytkownicy</a>
-        </h2>
-    </x-slot>
 
     <div class="py-12">        
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -17,18 +12,24 @@
                    
                     <b>Edytuj wpis</b><br/><br/>
                     
-                        <form method="POST" action="/update_item">
+                        <form method="POST" action="{{route('update_item', 1)}}">
 
-                        <label for="subject">Temat</label>
-                        <input id="subject" name="subject" type="text" value="@if($item) {{$item->subject}} @else{{old('subject')}}@endif" /><br/><br/>
+                            
+                                <div class="w-1">
+                                    <label for="subject">Temat</label><br/>
+                                    <input id="subject" name="subject" type="text" value="@if($item) {{$item->subject}} @else{{old('subject')}}@endif" /><br/><br/>
+                                </div>
 
-
-                        <label for="description">Opis</label>
-                        <textarea name="description" id="description">@if($item) {{$item->description}} @else{{old('description')}}@endif</textarea><br/><br/>
-
-
-                        <input type="submit" value="Zapisz" />
-
+                                <div class="w-1">
+                                    <label for="description">Opis</label><br/>
+                                    <textarea cols="50" rows="10" name="description" id="description">@if($item) {{$item->description}} @else{{old('description')}}@endif</textarea><br/><br/>
+                                </div>
+                            
+                            
+                            <div class="text-right">
+                                <input type="submit" value="Zapisz" class="p-3"/>
+                            </div>
+                        
                         <input type="hidden" value="{{$item->id}}" name="item_id" />
 
                         @csrf

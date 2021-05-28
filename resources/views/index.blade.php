@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
 
     <div class="py-12">        
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -15,7 +10,7 @@
                 
                 <div class="p-6 bg-white border-b border-gray-200">
                    
-                    <a href="/add_update_item">Dodaj nowy wpis &raquo;</a><br/><br/>
+                    <b><a href="/add_update_item">Dodaj nowy wpis &raquo;</a></b><br/><br/>
                     <hr/><br/><br/>
                     @foreach($items as $item)
                     
@@ -32,8 +27,9 @@
                     
                         {{$item->description}}<br/><br/>
                         
+                        @if($item->user)
                         <b><a href="/profile/{{$item->user->id}}">{{$item->user->name}}</a></b><br/><br/>
-                        
+                        @endif
                         <hr/>
                         
                         @foreach($item->comments as $comment)
@@ -42,7 +38,9 @@
                             
                             {{$comment->description}}<br/><br/>
                             
+                            @if($comment->user)
                             <b><a href="/profile/{{$comment->user->id}}" title="Profil">{{$comment->user->name}}</a></b><br/>
+                            @endif
                         @endforeach
                         
                         <hr/>
