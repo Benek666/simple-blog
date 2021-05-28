@@ -1,116 +1,25 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-weight-bold text-left text-text-gray-800" style="text-transform: uppercase;">
+            <a href="/admin/items">Wpisy</a>&nbsp;|&nbsp;<a href="/admin/users">Użytkownicy</a>
+        </h2>
+    </x-slot>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <div class="py-12">        
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-    <title>@if(!empty($head) && !empty($head->title)) {{$head->title}} @else Strona główna @endif</title>
-    <meta name="description" content="@if(!empty($head) && !empty($head->description)) {{$head->description}} @else Opis dla strony @endif" />
-    <meta name="keywords" content="@if(!empty($head) && !empty($head->keywords)) {{$head}} @else Słowa kluczowe @endif" />
-               
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
- 
-    
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/admin/app.css') }}" rel="stylesheet">
-    @yield('style')
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{url('/')}}/img/2.png" alt="Grafika" style="width:45px"/>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('login.login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('login.register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                            
-                            @yield('menu')
-                        @endguest
-                    </ul>
-                </div>
+            @component('components.message')
+            @endcomponent
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                
+                
+                <div class="p-6 bg-white border-b border-gray-200">
+                   
+                    Witaj {{Auth::user()->name}}!
+                    
+                </div>                              
             </div>
-        </nav>
 
-        <main class="py-4">
-            @if($errors->count)
-                <div class="row justify-content-center">
-
-                    @foreach ($errors->all() as $error)
-
-                        <div class="alert alert-danger"><?php echo str_replace(['surname', 'first name', 'personal identity number', 'phone'], ['nazwisko', 'imie', 'pesel', 'telefon'], $error); ?></div>
-
-                    @endforeach
-
-                </div>
-            @endif
-            
-            @if (session()->has('success'))
-            <div class="row justify-content-center alert alert-success">
-                @if(is_array(session()->get('success')))
-                <ul>
-                    @foreach (session()->get('success') as $message)
-                        <li>{{ $message }}</li>
-                    @endforeach
-                </ul>
-                @else
-                    {{ session()->get('success') }}
-                @endif
-            </div>
-            @endif
-            
-            
-            
-            @yield('content')
-            
-            
-        </main>
-    </div>
-</body>
-</html>
+        </div>
+    </div>    
+</x-app-layout>

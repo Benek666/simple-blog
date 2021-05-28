@@ -40,15 +40,15 @@ Route::prefix('/admin')->group(function() {
     
     Route::get('/items', [AdminController::class, 'getItems'])->name('items');
     
-    Route::get('/item/{id}', [AdminController::class, 'getItem'])->whereNumber('id');
+    Route::get('/item/{id}', [AdminController::class, 'getItem'])->whereNumber('id')->name('item');
     Route::post('/update_item', [AdminController::class, 'updateItem']);
     
-    Route::get('/remove_item/{id}', [AdminController::class, 'removeItem'])->whereNumber('id');
-    Route::get('/restore_item/{id}',[AdminController::class, 'restoreItem'])->whereNumber('id');
+    Route::get('/remove_item/{id}', [AdminController::class, 'removeItem'])->whereNumber('id')->name('remove_item');
+    Route::get('/restore_item/{id}',[AdminController::class, 'restoreItem'])->whereNumber('id')->name('restore_item');
     
     
-    Route::get('/comments/{item_id}', [AdminController::class, 'getComments'])->whereNumber('item_id');
-    Route::get('/comment/{id}', [AdminController::class, 'getComment'])->whereNumber('id');
+    Route::get('/comments/{item_id}', [AdminController::class, 'getComments'])->whereNumber('item_id')->name('comments');
+    Route::get('/comment/{id}', [AdminController::class, 'getComment'])->whereNumber('id')->name('comment');
     Route::post('/comment_update', [AdminController::class, 'updateComment']);
     
     Route::get('/remove_comment/{id}', [AdminController::class, 'removeComment'])->whereNumber('id');
@@ -56,7 +56,10 @@ Route::prefix('/admin')->group(function() {
     
     
     Route::get('/users', [AdminController::class, 'getUsers'])->name('users');
-        
+    Route::get('/user/{id}', [AdminController::class, 'getUser'])->whereNumber('id')->name('user');
+    Route::post('/update_user', [AdminController::class, 'updateUser'])->name('update_user');
+    Route::get('/remove_user/{id}', [AdminController::class, 'removeUser'])->whereNumber('id')->name('remove_user');
+    Route::get('/restore_user/{id}', [AdminController::class, 'restoreUser'])->whereNumber('id')->name('restore_user');
 });
 
 
