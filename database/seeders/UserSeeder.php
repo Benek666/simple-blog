@@ -25,10 +25,18 @@ class UserSeeder extends Seeder
             'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('password'),
             'created_at' => \Carbon\Carbon::now(),
+            'is_admin' => 0,
             
         ]);
         }
         
+        DB::table('users')->insert([
+            'name' => 'test',
+            'email' => 'test@gmail.com',
+            'password' => Hash::make('password'),
+            'created_at' => \Carbon\Carbon::now(),
+            'is_admin' => 1
+        ]);
         
     }
 }

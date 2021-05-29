@@ -10,7 +10,7 @@ class Item extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $table = 'Items';
+    protected $table = 'items';
     
     public function user() {
         
