@@ -35,7 +35,9 @@ class CommentRepository {
                             'user_id' => Rule::requiredIf(!$item),
         ]);
 
-        $validator->after(function ($validator) use($request, $item, $commentable_id, $commentable_type) {
+        $user = Auth::user();
+        
+        $validator->after(function ($validator) use($request, $item, $user, $commentable_id, $commentable_type) {
             
             if($item && is_null(Item::find($request->input('item_id')))) {
         
@@ -47,7 +49,15 @@ class CommentRepository {
                 $validator->errors()->add('wpis', 'Użytkownik nie istnieje!');
             }
     
-            if(Comment::where('commentable_id', $commentable_id)->where('commentable_type', $commentable_type)->where('description', $request->input('description'))->count()) {
+            /*
+                Komentarz do wpisu lub komentarz do profilu nie moze sie powtarzac dla danego uzytkownika
+            */
+            
+            if(Comment::where('commentable_id', $commentable_id)->where('commentable_type', $commentable_type)
+                                                                ->where('subject', trim($request->input('subject')))
+                                                                ->where('description', $request->input('description'))
+                                                                ->where('users_id', $user->id)
+                                                                ->count()) {
                 
                 $validator->errors()->add('komentarz', 'Komentarz o tej samej treści już został dodany');
             }     
@@ -63,8 +73,8 @@ class CommentRepository {
    
         $comment = new Comment();
         
-        $comment->subject = $request->input('subject');
-        $comment->description = $request->input('description');
+        $comment->subject = trim($request->input('subject'));
+        $comment->description = trim($request->input('description'));
         $comment->commentable_id = $commentable_id;
         $comment->commentable_type = $commentable_type;
         $comment->users_id = Auth::id();
@@ -97,7 +107,7 @@ class CommentRepository {
         ]);
         
         $user = Auth::user();
-        
+
         $validator->after(function ($validator) use($request, $user, $item, $commentable_id, $commentable_type) {
             
             if($item && is_null(Item::find($request->input('item_id')))) {
@@ -110,20 +120,27 @@ class CommentRepository {
                 $validator->errors()->add('wpis', 'Użytkownik nie istnieje!');
             }
             
-            if(is_null(Comment::where('id', $request->input('comments_id'))->where('users_id', $user->id)->first())) {
+            /*
+                Tylko administrator lub autor jest w stanie zmienić komentarz
+            */
+            if(!$user->is_admin && is_null(Comment::where('id', $request->input('comments_id'))->where('users_id', $user->id)->first())) {
             
                 $validator->errors()->add('komentarz', 'Komentarz dla określonego użytkownika nie istnieje');
             }
             
-            if(Comment::where('commentable_id', $commentable_id)->where('commentable_type', $commentable_type)->where('description', $request->input('description'))->count()) {
+            /*
+                Sprawdzenie czy komentarz o tym samym tytule i tresci zostal dodany
+            */
+            if(Comment::where('commentable_id', $commentable_id)->where('commentable_type', $commentable_type)
+                                                                ->where('subject', trim($request->input('subject')))
+                                                                ->where('description', trim($request->input('description')))
+                                                                ->where('users_id', $user->id)
+                                                                ->count()) {
                 
                 $validator->errors()->add('komentarz', 'Komentarz o tej samej treści już został dodany');
             }     
         });
 
-        
-        
-        
         if($validator->fails()) {
             
             return redirect()->back()->withErrors($validator)->withInput();
@@ -131,8 +148,8 @@ class CommentRepository {
         
         $comment = Comment::find($request->input('comments_id'));
         
-        $comment->subject = $request->input('subject');
-        $comment->description = $request->input('description');
+        $comment->subject = trim($request->input('subject'));
+        $comment->description = trim($request->input('description'));
         $comment->save();
         
         return redirect()->back()->with(['message' => 'Gratulacje komentarz został zaktualizowany!']);

@@ -51,12 +51,14 @@
                                     <div class="w-3/5">{{$comment->subject}}</div> 
                                     <div class="w-2/5 text-right">{{$item->created_at}}
                                     
-                                        @if(Auth::user()->id == $comment->users_id || Auth::user()->is_admin)
+                                        @auth
+                                            @if(Auth::user()->id == $comment->users_id || Auth::user()->is_admin)
 
-                                        &nbsp|&nbsp;<a href="/remove_comment/{{$comment->id}}" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?')">Usuń</a>&nbsp;|&nbsp;
+                                            &nbsp|&nbsp;<a href="/remove_comment/{{$comment->id}}" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?')">Usuń</a>&nbsp;|&nbsp;
 
-                                        <a href="/item/{{$item->id}}/comment/{{$comment->id}}">Zmień</a>
-                                        @endif
+                                            <a href="/item/{{$item->id}}/comment/{{$comment->id}}">Zmień</a>
+                                            @endif
+                                        @endauth
                                     </div>
                                 </div>
 
