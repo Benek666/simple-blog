@@ -15,14 +15,14 @@
                         <form method="POST" action="{{route('update_item', 1)}}">
 
                             
-                                <div class="w-1">
+                                <div class="w-full">
                                     <label for="subject">Temat</label><br/>
-                                    <input id="subject" name="subject" type="text" value="@if($item) {{$item->subject}} @else{{old('subject')}}@endif" /><br/><br/>
+                                    <input class="w-full" id="subject" name="subject" type="text" value="@if($item) {{$item->subject}} @else{{old('subject')}}@endif" /><br/><br/>
                                 </div>
 
-                                <div class="w-1">
+                                <div class="w-full">
                                     <label for="description">Opis</label><br/>
-                                    <textarea cols="50" rows="10" name="description" id="description">@if($item) {{$item->description}} @else{{old('description')}}@endif</textarea><br/><br/>
+                                    <textarea class="w-full" cols="50" rows="10" name="description" id="description">@if($item) {{$item->description}} @else{{old('description')}}@endif</textarea><br/><br/>
                                 </div>
                             
                             

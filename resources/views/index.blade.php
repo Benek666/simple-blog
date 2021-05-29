@@ -11,46 +11,78 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                    
                     <b><a href="/add_update_item">Dodaj nowy wpis &raquo;</a></b><br/><br/>
-                    <hr/><br/><br/>
+                    <br/><br/>
                     @foreach($items as $item)
                     
-                    <u><a href="/item/{{$item->id}}" title="{{$item->subject}}">{{$item->subject}}</a></u> {{$item->created_at}} 
+                    <div class="flex border-t-2 pt-4 border-gray-200">
+                        <div class="w-3/5">
+                            <u><a href="/item/{{$item->id}}" title="{{$item->subject}}">{{$item->subject}}</a></u>
+                        </div>
+
+                        <div class="w-2/5 text-right">
+                            {{$item->created_at}} 
+                            @auth   
+                                @if(Auth::user()->id == $item->users_id || Auth::user()->is_admin)
+                                &nbsp;|&nbsp;<a href="/remove_item/{{$item->id}}" onclick="return confirm('Czy na pewno chcesz usunąć wpis?')">Usuń</a>&nbsp;|&nbsp;
+
+                                <a href="/add_update_item/{{$item->id}}">Zmień</a>
+                                @endif
+                            @endauth
+                        </div>
+                    </div>
                     
-                        @auth   
-                            @if(Auth::user()->id == $item->users_id || Auth::user()->is_admin)
-                            &nbsp|&nbsp;<a href="/remove_item/{{$item->id}}" onclick="return confirm('Czy na pewno chcesz usunąć wpis?')">Usuń</a>&nbsp;|&nbsp;
-                            
-                            <a href="/add_update_item/{{$item->id}}">Zmień</a>
-                            @endif
-                        @endauth
-                        <br/><br/>
+                    <div class="mt-4 mb-4">
+                        {{$item->description}}
+                    </div>
                     
-                        {{$item->description}}<br/><br/>
-                        
+                    <div class="text-right mb-5 pb-5">
                         @if($item->user)
-                        <b><a href="/profile/{{$item->user->id}}">{{$item->user->name}}</a></b><br/><br/>
+                        <b><a href="/profile/{{$item->user->id}}">{{$item->user->name}}</a></b>
                         @endif
-                        <hr/>
-                        
-                        @foreach($item->comments as $comment)
-                        
-                            {{$comment->subject}} {{$item->created_at}}<br/><br/>
-                            
-                            {{$comment->description}}<br/><br/>
-                            
-                            @if($comment->user)
-                            <b><a href="/profile/{{$comment->user->id}}" title="Profil">{{$comment->user->name}}</a></b><br/>
+                    </div>
+                        <div class="ml-4 mb-6">
+                            @if(count($item->comments))
+
+                            <b>Komentarze ({!!count($item->comments)!!}):</b><br/><br/>
+
+                                @foreach($item->comments as $comment)
+
+                                <div class="flex">
+                                    <div class="w-3/5">{{$comment->subject}}</div> 
+                                    <div class="w-2/5 text-right">{{$item->created_at}}
+                                    
+                                        @if(Auth::user()->id == $comment->users_id || Auth::user()->is_admin)
+
+                                        &nbsp|&nbsp;<a href="/remove_comment/{{$comment->id}}" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?')">Usuń</a>&nbsp;|&nbsp;
+
+                                        <a href="/item/{{$item->id}}/comment/{{$comment->id}}">Zmień</a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    {{$comment->description}}
+                                </div>
+                                
+                                
+                                @if($comment->user)
+                                <div class="text-right mb-4">
+                                    <b><a href="/profile/{{$comment->user->id}}" title="Profil">{{$comment->user->name}}</a></b>
+                                </div>
+                                @endif
+                                    
+                                    
+                                @endforeach
                             @endif
-                        @endforeach
-                        
-                        <hr/>
-                        
+                        </div>
                     @endforeach
                     
                 </div>                              
             </div>
             
-            {{$items->links()}}
+                <div class="pt-4">
+                    {{$items->links()}}
+                </div>
         </div>
     </div>    
 </x-app-layout>

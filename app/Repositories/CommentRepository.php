@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Comment;
 use App\Models\Item;
+use App\Models\User;
 
 class CommentRepository {
     

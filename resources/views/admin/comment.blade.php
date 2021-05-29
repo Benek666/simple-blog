@@ -12,15 +12,19 @@
                     
                     <form method="POST" action="/update_comment">
                         
+                        <div class="w-full">
                         <label for="subject">Temat</label><br/>
-                        <input id="subject" name="subject" type="text" value="@if($comment){{$comment->subject}}@else{{old('subject')}}@endif" /><br/><br/>
+                        <input class="w-full" id="subject" name="subject" type="text" value="@if($comment){{$comment->subject}}@else{{old('subject')}}@endif" /><br/><br/>
+                        </div>
                         
-                        
+                        <div class="w-full">
                         <label for="description">Opis</label><br/>
-                        <textarea cols="50" rows="10" name="description" id="description">@if($comment){{$comment->description}}@else{{old('description')}}@endif</textarea><br/><br/>
+                        <textarea class="w-full" cols="50" rows="10" name="description" id="description">@if($comment){{$comment->description}}@else{{old('description')}}@endif</textarea><br/><br/>
+                        </div>
                         
-                        
+                        <div class="text-right">
                         <input type="submit" value="Zapisz" class="p-3" />
+                        </div>
                         
                         <input type="hidden" value="{{$comment->id}}" name="comments_id" />
                         <input type="hidden" value="{{$comment->commentable_id}}" name="item_id" />
