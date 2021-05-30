@@ -16,12 +16,12 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             
-            $table->foreignId('users_id');
+            $table->foreignId('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('subject', 100);
             $table->text('description');
             $table->softDeletes('deleted_at');            
             $table->timestamps();
-            
+
         });
     }
 
