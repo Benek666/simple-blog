@@ -89,7 +89,7 @@ class AdminController extends Controller
         
             $comments = $obj->comments()->paginate($paginate); # ->orderBy('created_at', 'DESC');
 
-            
+            /*
             if($request->has('rows')) {
 
                 switch($request['rows']) {
@@ -106,7 +106,8 @@ class AdminController extends Controller
                       $comments = $obj->comments()::paginate($paginate); # orderBy('created_at', 'DESC')
                 }            
             }
-              
+            */
+            
             return view('admin.comments')->with('obj', $obj)
                                          ->with('comments', $comments)
                                          ->with('isItem', $isItem);
