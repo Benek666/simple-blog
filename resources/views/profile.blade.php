@@ -14,12 +14,13 @@
                         <div class="flex">
                             <div class="w-3/5">{{$comment->subject}}</div>
                             <div class="w-2/5 text-right">{{$comment->created_at}}
-                                
+                                @auth
                                     @if(Auth::user()->id == $comment->users_id || Auth::user()->is_admin)
                                     &nbsp|&nbsp;<a href="/remove_comment/{{$comment->id}}" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?')">Usuń</a>&nbsp;|&nbsp;
 
                                     <a href="/profile/{{$user->id}}/comment/{{$comment->id}}">Zmień</a>
                                     @endif
+                                @endauth
                             </div>
                         </div>
                         <div class="mt-4 mb-4">
